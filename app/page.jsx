@@ -31,7 +31,11 @@ const page = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const numValue = parseFloat(value) || 0;
+
+    if (numValue >= 0) {
+      setFormData((prev) => ({ ...prev, [name]: numValue }));
+    }
 
     // Calculate all energy consumption in one update
     setEnergyConsumption((prev) => ({
