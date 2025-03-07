@@ -1,24 +1,31 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f0f4f8;
+}
+
+.btn-slide {
+  color: #3182ce;
+  height: 40px;
+  transition: all 0.3s ease;
+  position: relative;
+  background-color: #f0f4f8;
+  z-index: 0;
+  &:hover {
+    color: #fff;
+  }
+  &:hover:after {
+    height: 100%;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    height: 0;
+    transition: all 0.3s ease;
+    background-color: #3182ce;
+  }
 }
