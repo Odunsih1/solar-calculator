@@ -8,16 +8,7 @@ const page = () => {
   const [formData, setFormData] = useState({
     wattageRating: 0,
     numberOfBulbs: 0,
-    fanWattageRating: 0,
-    numberOfFan: 0,
-    fanHoursUsage: 0,
-    numberOfAC: 0,
-    numberOfRefrigerator: 0,
-    numberOfHeater: 0,
-    numberOfOther: 0,
-    hoursUsage: 0,
-    otherName: 0,
-    daysOfAutonomy: 0,
+    // ... other fields
   });
 
   const [energyConsumption, setEnergyConsumption] = useState({
