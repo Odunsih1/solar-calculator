@@ -31,25 +31,18 @@ const page = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setEnergyConsumption({
-      ...energyConsumption,
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Calculate all energy consumption in one update
+    setEnergyConsumption((prev) => ({
+      ...prev,
       bulb:
-        parseFloat(formData.wattageRating) *
-        parseFloat(formData.numberOfBulbs) *
-        parseFloat(formData.hoursUsage),
-    });
-    setEnergyConsumption({
-      ...energyConsumption,
+        formData.wattageRating * formData.numberOfBulbs * formData.hoursUsage,
       fan:
-        parseFloat(formData.wattageRating) *
-        parseFloat(formData.numberOfBulbs) *
-        parseFloat(formData.hoursUsage),
-    });
-    console.log(e);
-    console.log(parseFloat(formData.fanWattageRating));
-    console.log(parseFloat(formData.numberOfFan));
-    console.log(parseFloat(formData.fanHoursUsage));
+        formData.fanWattageRating *
+        formData.numberOfFan *
+        formData.fanHoursUsage,
+    }));
   };
 
   const next = () => {
@@ -77,7 +70,7 @@ const page = () => {
                 <input
                   name="wattageRating"
                   id="wattageRating"
-                  value={setFormData.wattageRating}
+                  value={formData.wattageRating}
                   onChange={handleInputChange}
                   className="border-b-[2px] border-[#aaa] active:ring-0 "
                   type="number"
@@ -91,7 +84,7 @@ const page = () => {
               <label>
                 <input
                   name="numberOfBulbs"
-                  value={setFormData.numberOfBulbs}
+                  value={formData.numberOfBulbs}
                   onChange={handleInputChange}
                   id="numberOfBulb"
                   type="number"
@@ -101,7 +94,7 @@ const page = () => {
               <label>
                 <input
                   name="hoursUsage"
-                  value={setFormData.hoursUsage}
+                  value={formData.hoursUsage}
                   onChange={handleInputChange}
                   id="hoursUsage"
                   type="number"
@@ -152,7 +145,7 @@ const page = () => {
               <label>
                 <input
                   name="fanWattageRating"
-                  value={setFormData.fanWattageRating}
+                  value={formData.fanWattageRating}
                   onChange={handleInputChange}
                   id="fanWattageRating"
                   type="number"
@@ -163,7 +156,7 @@ const page = () => {
               <label>
                 <input
                   name="numberOfFan"
-                  value={setFormData.numberOfFan}
+                  value={formData.numberOfFan}
                   onChange={handleInputChange}
                   id="numberOfFan"
                   type="number"
@@ -173,7 +166,7 @@ const page = () => {
               <label>
                 <input
                   name="fanHoursUsage"
-                  value={setFormData.fanHoursUsage}
+                  value={formData.fanHoursUsage}
                   onChange={handleInputChange}
                   id="fanHoursUsage"
                   type="number"
