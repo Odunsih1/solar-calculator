@@ -29,3 +29,33 @@ body {
     background-color: #3182ce;
   }
 }
+
+.ani {
+  animation-name: fade;
+  animation-duration: 0.5s;
+}
+
+.anii {
+  animation-name: fadeI;
+  animation-timeline: scroll;
+}
+
+@keyframes fade {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-2%);
+  }
+}
+
+@keyframes fadeI {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-2%);
+  }
+}
