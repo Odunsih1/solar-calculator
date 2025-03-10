@@ -3,7 +3,7 @@ import Button from "./button";
 
 const nav = () => {
   return (
-    <nav className="flex justify-evenly text-[#e9e9e9] bg-[#3182CE] sticky top-0 z-1">
+    <nav className="flex flex-wrap justify-evenly text-[#e9e9e9] bg-[#3182CE] sticky top-0 z-1">
       <ul className="flex text-2xl invisible sm:visible">
         <li className="p-1 m-1 cursor-not-allowed transition hover:text-[#000000e7] active:font-bold">
           Home
