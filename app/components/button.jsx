@@ -1,13 +1,11 @@
 import React from "react";
 
-const button = ({ name, onClick, className }) => {
+const Button = ({ className, onClick, name, icon, ariaLabel }) => {
   return (
-    <div>
-      <button onClick={onClick} className={className}>
-        {name}
-      </button>
-    </div>
+    <button className={className} onClick={onClick} aria-label={ariaLabel}>
+      {icon ? icon : name}
+    </button>
   );
 };
 
-export default button;
+export default Button;

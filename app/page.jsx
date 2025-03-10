@@ -16,22 +16,47 @@ const page = () => {
         id: 1,
       },
     ],
-    fanWattageRating: 0,
-    numberOfFan: 0,
-    fanHoursUsage: 0,
-    ACWattageRating: 0,
-    numberOfAC: 0,
-    ACHoursUsage: 0,
-    refrigeratorWattageRating: 0,
-    numberOfRefrigerator: 0,
-    refrigeratorHoursUsage: 0,
-    heaterWattageRating: 0,
-    numberOfHeater: 0,
-    heaterHoursUsage: 0,
-    otherWattageRating: 0,
-    numberOfOther: 0,
-    otherHoursUsage: 0,
-    otherName: "",
+    fans: [
+      {
+        wattageRating: 0,
+        numberOfUnits: 0,
+        hoursUsage: 0,
+        id: 1,
+      },
+    ],
+    ACs: [
+      {
+        wattageRating: 0,
+        numberOfUnits: 0,
+        hoursUsage: 0,
+        id: 1,
+      },
+    ],
+    refrigerators: [
+      {
+        wattageRating: 0,
+        numberOfUnits: 0,
+        hoursUsage: 0,
+        id: 1,
+      },
+    ],
+    heaters: [
+      {
+        wattageRating: 0,
+        numberOfUnits: 0,
+        hoursUsage: 0,
+        id: 1,
+      },
+    ],
+    others: [
+      {
+        wattageRating: 0,
+        numberOfUnits: 0,
+        hoursUsage: 0,
+        name: "",
+        id: 1,
+      },
+    ],
     daysOfAutonomy: 0,
   });
 
@@ -90,25 +115,73 @@ const page = () => {
     }));
   };
 
+  const addAnotherAppliance = (type) => {
+    setFormData((prev) => ({
+      ...prev,
+      [type]: [
+        ...prev[type],
+        {
+          wattageRating: 0,
+          numberOfUnits: 0,
+          hoursUsage: 0,
+          id: prev[type].length + 1,
+          ...(type === "others" && { name: "" }),
+        },
+      ],
+    }));
+  };
+
   const next = () => {
+    // Calculate and store bulb consumption
     const totalBulbConsumption = formData.lights.reduce((acc, light) => {
       return acc + light.wattageRating * light.numberOfBulbs * light.hoursUsage;
     }, 0);
 
-    localStorage.setItem(
-      "EC bulb",
-      JSON.stringify(parseInt(totalBulbConsumption))
-    );
-    localStorage.setItem(
-      "EC fan",
-      JSON.stringify(parseInt(energyConsumption.fan))
-    );
+    // Calculate all appliance consumptions
+    const fanConsumption =
+      formData.fanWattageRating * formData.numberOfFan * formData.fanHoursUsage;
+    const acConsumption =
+      formData.ACWattageRating * formData.numberOfAC * formData.ACHoursUsage;
+    const refrigeratorConsumption =
+      formData.refrigeratorWattageRating *
+      formData.numberOfRefrigerator *
+      formData.refrigeratorHoursUsage;
+    const heaterConsumption =
+      formData.heaterWattageRating *
+      formData.numberOfHeater *
+      formData.heaterHoursUsage;
+    const otherConsumption =
+      formData.otherWattageRating *
+      formData.numberOfOther *
+      formData.otherHoursUsage;
 
-    // Calculate total energy consumption
+    // Store all values in localStorage
+    const storageItems = {
+      "EC bulb": totalBulbConsumption,
+      "EC fan": fanConsumption,
+      "EC AC": acConsumption,
+      "EC refrigerator": refrigeratorConsumption,
+      "EC heater": heaterConsumption,
+      "EC other": otherConsumption,
+    };
+
+    // Save all items to localStorage
+    Object.entries(storageItems).forEach(([key, value]) => {
+      localStorage.setItem(key, JSON.stringify(parseInt(value)));
+    });
+
+    // Update energy consumption state
     setEnergyConsumption((prev) => ({
       ...prev,
       bulb: totalBulbConsumption,
+      fan: fanConsumption,
+      AC: acConsumption,
+      refrigerator: refrigeratorConsumption,
+      heater: heaterConsumption,
+      others: otherConsumption,
     }));
+
+    setSection(2);
   };
 
   const renderSection = () => {
@@ -123,6 +196,8 @@ const page = () => {
               next={next}
               handleInputChange={handleInputChange}
               setSection={setSection}
+              setFormData={setFormData}
+              addAnotherAppliance={addAnotherAppliance}
             />
           </>
         );
