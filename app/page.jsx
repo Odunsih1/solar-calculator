@@ -137,23 +137,31 @@ const page = () => {
       return acc + light.wattageRating * light.numberOfBulbs * light.hoursUsage;
     }, 0);
 
-    // Calculate all appliance consumptions
-    const fanConsumption =
-      formData.fanWattageRating * formData.numberOfFan * formData.fanHoursUsage;
-    const acConsumption =
-      formData.ACWattageRating * formData.numberOfAC * formData.ACHoursUsage;
-    const refrigeratorConsumption =
-      formData.refrigeratorWattageRating *
-      formData.numberOfRefrigerator *
-      formData.refrigeratorHoursUsage;
-    const heaterConsumption =
-      formData.heaterWattageRating *
-      formData.numberOfHeater *
-      formData.heaterHoursUsage;
-    const otherConsumption =
-      formData.otherWattageRating *
-      formData.numberOfOther *
-      formData.otherHoursUsage;
+    // Calculate other appliances using reduce like lights
+    const fanConsumption = formData.fans.reduce((acc, fan) => {
+      return acc + fan.wattageRating * fan.numberOfUnits * fan.hoursUsage;
+    }, 0);
+
+    const acConsumption = formData.ACs.reduce((acc, ac) => {
+      return acc + ac.wattageRating * ac.numberOfUnits * ac.hoursUsage;
+    }, 0);
+
+    const refrigeratorConsumption = formData.refrigerators.reduce(
+      (acc, ref) => {
+        return acc + ref.wattageRating * ref.numberOfUnits * ref.hoursUsage;
+      },
+      0
+    );
+
+    const heaterConsumption = formData.heaters.reduce((acc, heater) => {
+      return (
+        acc + heater.wattageRating * heater.numberOfUnits * heater.hoursUsage
+      );
+    }, 0);
+
+    const otherConsumption = formData.others.reduce((acc, other) => {
+      return acc + other.wattageRating * other.numberOfUnits * other.hoursUsage;
+    }, 0);
 
     // Store all values in localStorage
     const storageItems = {
@@ -165,12 +173,10 @@ const page = () => {
       "EC other": otherConsumption,
     };
 
-    // Save all items to localStorage
     Object.entries(storageItems).forEach(([key, value]) => {
       localStorage.setItem(key, JSON.stringify(parseInt(value)));
     });
 
-    // Update energy consumption state
     setEnergyConsumption((prev) => ({
       ...prev,
       bulb: totalBulbConsumption,
