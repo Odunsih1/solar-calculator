@@ -12,6 +12,7 @@ const sectionOne = ({
   setSection,
   setFormData,
   addAnotherAppliance,
+  energyConsumptions,
 }) => {
   const [step, setStep] = useState(1);
 
@@ -208,7 +209,16 @@ const sectionOne = ({
           />
           <Button
             className="cursor-pointer text-2xl bg-[#3182CE] rounded-[5px] p-2 border-[2px] border-[#3182CE] m-3 transition hover:bg-[#000] active:bg-[#55fff6] text-[#fff]"
-            onClick={() => (step === 6 ? next() : setStep(step + 1))}
+            onClick={() => {
+              if (step === 6) {
+                next();
+                energyConsumptions();
+              } else {
+                setStep(step + 1);
+              }
+              {
+              }
+            }}
             name={step === 6 ? "Finish" : "Next"}
           />
         </div>
@@ -216,7 +226,7 @@ const sectionOne = ({
     </section>
   );
 };
-
+// (step === 6 ? next() : setStep(step + 1))
 // Template for each appliance section
 const ApplianceSection = ({ title, formData, setFormData, onAddAnother }) => {
   // Create a mapping for the array names

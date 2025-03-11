@@ -189,6 +189,19 @@ const page = () => {
 
     setSection(2);
   };
+  const energyConsumptions = () => {
+    let retrivedEnergy =
+      JSON.parse(localStorage.getItem("EC bulb")) +
+      JSON.parse(localStorage.getItem("EC AC")) +
+      JSON.parse(localStorage.getItem("EC fan")) +
+      JSON.parse(localStorage.getItem("EC heater")) +
+      JSON.parse(localStorage.getItem("EC other")) +
+      JSON.parse(localStorage.getItem("EC refrigerator"));
+    console.log((retrivedEnergy * 1.33) / 0.9 / 12);
+    let eld = Math.floor((retrivedEnergy * 1.33) / 0.9 / 12);
+    localStorage.setItem("ELD(Ah)/d", eld);
+  };
+  energyConsumptions();
 
   const renderSection = () => {
     switch (section) {
@@ -204,6 +217,7 @@ const page = () => {
               setSection={setSection}
               setFormData={setFormData}
               addAnotherAppliance={addAnotherAppliance}
+              energyConsumptions={energyConsumptions}
             />
           </>
         );
