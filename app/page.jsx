@@ -197,12 +197,56 @@ const page = () => {
       JSON.parse(localStorage.getItem("EC heater")) +
       JSON.parse(localStorage.getItem("EC other")) +
       JSON.parse(localStorage.getItem("EC refrigerator"));
-    console.log((retrivedEnergy * 1.33) / 0.9 / 12);
+    console.log(`PV sizing: ${(retrivedEnergy * 1.33) / 0.9 / 12}Ah/d`);
     let eld = Math.floor((retrivedEnergy * 1.33) / 0.9 / 12);
     localStorage.setItem("ELD(Ah)/d", eld);
   };
   energyConsumptions();
 
+  const arrayCurrent = () => {
+    let retrievedELD = localStorage.getItem("ELD(Ah)/d");
+    let calculatedArrayCurrent = retrievedELD / 6.25;
+    let moduleInParallel = calculatedArrayCurrent / 6.6;
+    localStorage.setItem("Module In Parallel", moduleInParallel);
+    console.log(`Array current: ${calculatedArrayCurrent}A`);
+    console.log(`Number of module in parallel: ${moduleInParallel}`);
+  };
+  arrayCurrent();
+
+  const batterySizing = () => {
+    let retrievedELD = localStorage.getItem("ELD(Ah)/d");
+    let batteryCapacitiy = (retrievedELD * 1) / 0.8;
+    console.log(`Battery sizing: ${Math.round(batteryCapacitiy)}Ah`);
+  };
+  batterySizing();
+
+  const chargeControllerRating = () => {
+    let retrievedModule = localStorage.getItem("Module In Parallel");
+    let chargeController = 7.5 * 1.33 * retrievedModule;
+    console.log(`Charge Controller: ${Math.round(chargeController)}A`);
+    if (chargeController === 0) {
+      console.log(`No valid data was inputted`);
+    } else if (chargeController <= 19) {
+      console.log(`Recommended charge controller: 20A`);
+    } else if (chargeController <= 29) {
+      console.log(`Recommended charge controller: 30A`);
+    } else if (chargeController <= 39) {
+      console.log(`Recommended charge controller: 40A`);
+    } else if (chargeController <= 49) {
+      console.log(`Recommended charge controller: 50A`);
+    } else if (chargeController <= 59) {
+      console.log(`Recommended charge controller: 60A`);
+    } else if (chargeController <= 99) {
+      console.log(`Recommended charge controller: 100A`);
+    } else if (chargeController <= 149) {
+      console.log(`Recommended charge controller: 150A`);
+    } else if (chargeController <= 199) {
+      console.log(`Recommended charge controller: 200A`);
+    }
+  };
+  chargeControllerRating();
+
+  const inverter = () => {};
   const renderSection = () => {
     switch (section) {
       case 1:
