@@ -16,7 +16,7 @@ const nav = () => {
             Consult
           </li>
           <li className="p-1 m-1 cursor-not-allowed  transition hover:text-[#000000e7] active:font-bold ">
-            Blog
+            Blogs
           </li>
         </ul>
       </div>
