@@ -319,9 +319,6 @@ const page = () => {
     }
   };
 
-  // function watt() {
-  //   setFormData({ wattageRating: 2 });
-  // }
   return (
     <>
       <Nav />
